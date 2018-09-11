@@ -10,6 +10,11 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.listen(8080,()=>{
+  console.log('Started on 8080');
+});
+
+
 app.post('/todos',(req,res)=>{
     var todo = new Todo({
       text : req.body.text,
@@ -32,22 +37,18 @@ app.get('/todos',(req,res)=>{
   });
 });
 
-app.listen(3000,()=>{
-  console.log('Started on 3000');
-});
-
-
 app.get('/todos/:id',(req,res)=>{
   if(!ObjectID.isValid(req.params.id)){
     res.status(400).send();
   }
-  Todo.findById(req.params.id)
-    .then((todo)=>{
+  Todo.findById(req.params.id).then((todo)=>{
       if(!todo){
         res.status(404).send();
       }
       res.send({todo});
-    }).catch((e)=>res.status(500).send(e));
+    }).catch((e)=>{
+      res.status(500).send()
+    });
 });
 
 module.exports ={app}

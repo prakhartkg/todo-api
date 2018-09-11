@@ -14,9 +14,9 @@ const todoList =[{
 }];
 
 beforeEach((done)=>{
-  Todo.remove({}).then(()=>{
+  Todo.deleteMany({}).then(()=>{
     return Todo.insertMany(todoList);
-  }).then(()=>done());
+  }).then(()=>done()).catch((e)=>done(e));
 });
 
 describe("POST /todos",()=>{
@@ -86,15 +86,16 @@ describe('GET /todos/:id',()=>{
   });
 
   it('should return 404',(done)=>{
+    const id = new ObjectID().toHexString();
     request(app)
-      .get(`/todos/${new ObjectID()}`)
+      .get(`/todos/${id}`)
       .expect(404)
       .end(done);
   });
 
-  it('should return 400',(done)=>{
+  it('should return 400 as not a valid id',(done)=>{
     request(app)
-      .get(`/todos/${new ObjectID()}+1`)
+      .get(`/todos/121`)
       .expect(400)
       .end(done);
   });
