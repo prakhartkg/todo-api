@@ -4,6 +4,7 @@
   "description": "Todo api",
   "main": "index.js",
   "scripts": {
+    "start":"nodemon server/server.js",  
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
@@ -12,6 +13,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "loadash": "^1.0.0",
+    "lodash": "^4.17.11",
     "mongodb": "^3.1.4",
     "mongoose": "^5.2.13"
   },
