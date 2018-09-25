@@ -1,3 +1,4 @@
+require('./config/config');
 const express = require('express');
 const bodyParser=require('body-parser');
 const {ObjectID} = require('mongodb');
@@ -12,8 +13,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.listen(8080,()=>{
-  console.log('Started on 8080');
+app.listen(process.env.PORT,()=>{
+  console.log(`Started on ${process.env.PORT}`);
 });
 
 
@@ -100,6 +101,20 @@ app.patch('/todos/:id',(req,res)=>{
       });
     });
 
+});
+
+app.post('/users',async (req,res)=>{
+  let body = _.pick(req.body,['email','password']);
+  let user = new User(body);
+  try{
+    user = await user.save();
+  }catch(e){
+    res.status(500).send(e);
+  }
+  if(!user){
+    res.status(404).send({message:"User not found"})
+  }
+  res.send(user);
 });
 
 module.exports ={app}

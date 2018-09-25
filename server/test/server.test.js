@@ -16,14 +16,13 @@ const todoList =[{
 beforeEach((done)=>{
   Todo.deleteMany({}).then(()=>{
     return Todo.insertMany(todoList);
-  }).then(()=>done()).catch((e)=>done(e));
+  }).then(()=>done())
+  .catch((e)=>done(e));
 });
 
 describe("POST /todos",()=>{
   it('Should create a new todo',(done)=>{
     var text = 'Test todo text';
-
-
     request(app)
       .post('/todos')
       .send({text})
@@ -35,7 +34,6 @@ describe("POST /todos",()=>{
         if(err){
           return done(err)
         }
-
         Todo.find().then((todos)=>{
           expect(todos.length).toBe(3);
           expect(todos[todos.length-1].text).toBe(text);
